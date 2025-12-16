@@ -4,6 +4,9 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and set
 
 from tkinter import *
+import os
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
 import speedtest
 import math
 from PIL import ImageTk, Image
@@ -44,7 +47,7 @@ def internet_speed():
 
 root = Tk()
 root.config(bg='black')
-im1 = Image.open(r'E:\pythonProject\cpu\sp.png')
+im1 = Image.open(os.path.join(base_dir, 'sp.png'))
 image1 = im1.resize((300, 350))
 tk_image = ImageTk.PhotoImage(image1)
 

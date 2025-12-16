@@ -1,4 +1,7 @@
 from tkinter import *
+import os
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
 import tkinter as tk
 from tkinter import messagebox
 from geopy.geocoders import Nominatim
@@ -53,7 +56,7 @@ def getWeather():
 
 
 # Search box
-Search_image = PhotoImage(file='E:/pythonProject/image/search.png')
+Search_image = PhotoImage(file=os.path.join(base_dir, '../image/search.png'))
 myimage = Label(image=Search_image)
 myimage.place(x=20, y=20)
 
@@ -61,17 +64,17 @@ textfield = tk.Entry(root, justify='center', width=17, font=('poppins', 25, 'bol
 textfield.place(x=50, y=40)
 textfield.focus()
 
-Search_icon = PhotoImage(file='E:/pythonProject/image/search_icon.png')
+Search_icon = PhotoImage(file=os.path.join(base_dir, '../image/search_icon.png'))
 myimage_icon = Button(image=Search_icon, borderwidth=0, cursor='hand2', bg='#404040',command=getWeather)
 myimage_icon.place(x=400, y=32)
 
 # logo
-Logo_image = PhotoImage(file='E:/pythonProject/image/logo.png')
+Logo_image = PhotoImage(file=os.path.join(base_dir, '../image/logo.png'))
 logo = Label(image=Logo_image)
 logo.place(x=150, y=100)
 
 # bottom box
-Frame_image = PhotoImage(file='E:/pythonProject/image/box.png')
+Frame_image = PhotoImage(file=os.path.join(base_dir, '../image/box.png'))
 frame_myimage = Label(image=Frame_image)
 frame_myimage.pack(padx=5, pady=5, side=BOTTOM)
 

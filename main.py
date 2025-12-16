@@ -10,13 +10,30 @@ import screen_brightness_control as pct
 
 # audio
 from ctypes import cast, POINTER
+import comtypes
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+# Initialize COM library
+try:
+    comtypes.CoInitialize()
+except:
+    pass
+
+# Global Audio Control Initialization
+try:
+    devices = AudioUtilities.GetSpeakers()
+    interface = devices.EndpointVolume
+    volume_control = cast(interface, POINTER(IAudioEndpointVolume))
+except Exception as e:
+    print(f"Audio init failed: {e}")
+    volume_control = None
 
 # open google
 import pyautogui
 
 import subprocess
+import sys
 import webbrowser as wb
 
 root = Tk()
@@ -132,11 +149,11 @@ def get_current_volume_value():
 
 
 def volume_changed(event):
-    device = AudioUtilities.GetSpeakers()
-    interface = device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    # noinspection PyTypeChecker
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    volume.SetMasterVolumeLevel(-float(get_current_volume_value()), None)
+    if volume_control:
+        try:
+            volume_control.SetMasterVolumeLevel(-float(get_current_volume_value()), None)
+        except Exception as e:
+            print(f"Volume error: {e}")
 
 
 style = ttk.Style()
@@ -166,18 +183,18 @@ brightness.place(x=100, y=190)
 
 
 # ################################
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def weather():
-    os.system('python E:/pythonProject/weather/weather.py')
+    subprocess.Popen([sys.executable, os.path.join(base_dir, 'weather/weather.py')])
 
 
 def clock():
-    os.system('python E:/pythonProject/clock/clock.py')
-
+    subprocess.Popen([sys.executable, os.path.join(base_dir, 'clock/clock.py')])
 
 def calendar():
-    os.system('python E:/pythonProject/calender/calender.py')
+    subprocess.Popen([sys.executable, os.path.join(base_dir, 'calender/calender.py')])
 
 
 # -----------------------mode-------------------
@@ -238,7 +255,7 @@ def mode():
 
 
 def to_do():
-    os.system('python E:/pythonProject/to_do/to_do.py')
+    subprocess.Popen([sys.executable, os.path.join(base_dir, 'to_do/to_do.py')])
 
 
 def screenshot():
@@ -258,7 +275,7 @@ def crome():
 
 
 def cpu():
-    os.system('python E:\pythonProject\cpu\cpu.py')
+    subprocess.Popen([sys.executable, os.path.join(base_dir, 'cpu/cpu.py')])
 
 
 def close_window():
@@ -266,7 +283,7 @@ def close_window():
 
 
 def calculator():
-    os.system('python calculater.py')
+    subprocess.Popen([sys.executable, os.path.join(base_dir, 'calculater.py')])
 
 
 

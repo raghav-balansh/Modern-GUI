@@ -1,4 +1,7 @@
 from tkinter import *
+import os
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 root = Tk()
 root.title('TO-DO LIST')
@@ -13,7 +16,7 @@ def addTask():
     task_entry.delete(0, END)
 
     if task:
-        with open('E:/pythonProject/to_do/Tasklist.txt', 'a') as taskfile:
+        with open(os.path.join(base_dir, 'Tasklist.txt'), 'a') as taskfile:
             taskfile.write(f"\n{task}")
         task_list.append(task)
         listbox.insert(END, task)
@@ -24,7 +27,7 @@ def deleteTask():
     task = str(listbox.get(ANCHOR))
     if task in task_list:
         task_list.remove(task)
-        with open('E:/pythonProject/to_do/tasklist.txt', 'w') as taskfie:
+        with open(os.path.join(base_dir, 'tasklist.txt'), 'w') as taskfie:
             taskfie.write(task+'\n')
 
         listbox.delete(ANCHOR)
@@ -33,7 +36,7 @@ def deleteTask():
 def openTaskFile():
     try:
         global task_list
-        with open('E:/pythonProject/to_do/tasklist.txt', 'r') as taskfile:
+        with open(os.path.join(base_dir, 'tasklist.txt'), 'r') as taskfile:
             tasks = taskfile.readline()
 
         for task in tasks:
@@ -42,19 +45,19 @@ def openTaskFile():
                 listbox.insert(END, task)
 
     except:
-        file = open('E:/pythonProject/to_do/tasklist.txt', 'w')
+        file = open(os.path.join(base_dir, 'tasklist.txt'), 'w')
         file.close()
 
 
 # icon
-Image_icon = PhotoImage(file='E:/pythonProject/to_do/task.png')
+Image_icon = PhotoImage(file=os.path.join(base_dir, 'task.png'))
 root.iconphoto(False, Image_icon)
 
 # top bar
-TopImage = PhotoImage(file='E:/pythonProject/to_do/topbar.png')
+TopImage = PhotoImage(file=os.path.join(base_dir, 'topbar.png'))
 Label(root, image=TopImage).pack()
 
-dockImage = PhotoImage(file='E:/pythonProject/to_do/dock.png')
+dockImage = PhotoImage(file=os.path.join(base_dir, 'dock.png'))
 Label(root, image=dockImage, bg='#193047').place(x=30, y=25)
 
 heading = Label(root, text='ALL TASK', font='arial 20 bold', fg='white', bg='#32405b')
@@ -86,7 +89,7 @@ scrollbar.config(command=listbox.yview())
 openTaskFile()
 
 # delete
-Delete_icon = PhotoImage(file='E:/pythonProject/to_do/delete.png')
+Delete_icon = PhotoImage(file=os.path.join(base_dir, 'delete.png'))
 Button(root, image=Delete_icon, bd=0, command=deleteTask).pack(side=BOTTOM, pady=13)
 
 root.mainloop()
